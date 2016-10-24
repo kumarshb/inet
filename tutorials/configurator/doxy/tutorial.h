@@ -244,7 +244,7 @@ This step demonstrates the default configuration for routing.
 @section s4model The model
 
 This step uses the <i>ConfiguratorB</i> network, defined in ConfiguratorB.ned. This extends the previous network, <i>ConfiguratorA</i> with
-the addition of a <i>RoutingTableCanvasVisualizer</i> module.
+the addition of a <tt>RoutingTableCanvasVisualizer</tt> module.
 
 @dontinclude ConfiguratorB.ned
 @skip ConfiguratorB
@@ -260,15 +260,15 @@ The configuration for this step in omnetpp.ini is the following:
 @skip Step4
 @until ####
 
-A ping app in host0 is configured to send ping packets to host7, which is on the other side of the network.
+A ping app in <i>host0</i> is configured to send ping packets to <i>host7</i>, which is on the other side of the network.
 This should aid in visualizing routing.
 
 The <i>RoutingTableCanvasVisualizer</i> module can be used to visualize routes in the network.
 Routes to be visualized are selected with its <i>destinationFilter</i> parameter.
 All routes leading towards that destination are indicated by arrows.
-The default setting is "", which means no routes are visualized. The "*.*" setting visualizes all routes
+The default setting is <i>""</i>, which means no routes are visualized. The <i>"*.*"</i> setting visualizes all routes
 going from every node to every other node, which can make the screen cluttered.
-In this step the <i>destinationFilter</i> is set to visualize all routes heading towards host7.
+In this step the <i>destinationFilter</i> is set to visualize all routes heading towards <i>host7</i>.
 
 The IP address assignment is fully automatic, and the resulting addresses should be the same as in Step 1.
 
@@ -305,6 +305,102 @@ The <i>General</i> configuration also sets GlobalARP to keep the packet exchange
 so when the simulation begins no ARP exchanges are necessary. The <i>**.routingTable.netmaskRoutes = ""</i> keeps the routing table modules from
 adding netmask routes to the routing tables. Netmask routes mean that nodes with the same netmask but different IP should reach each other directly.
 There routes are also added by the configurator, so netmaskRoutes are turned off for the sake of simplicity.
+
+@section Results
+
+The visualized routes are displayed on the following image:
+
+<img src="step4routes.png" width=850px>
+
+Note that routes from all nodes to host7 are visualized.
+
+The routing tables are the following:
+
+<pre>
+Node ConfiguratorB.host0
+-- Routing table --
+Destination      Netmask          Gateway          Iface                  Metric
+10.0.0.0         255.255.255.248  *                eth0 (10.0.0.1) 0
+*                *                10.0.0.4         eth0 (10.0.0.1) 0
+
+Node ConfiguratorB.host1
+-- Routing table --
+Destination      Netmask          Gateway          Iface                  Metric
+10.0.0.0         255.255.255.248  *                eth0 (10.0.0.3) 0
+*                *                10.0.0.4         eth0 (10.0.0.3) 0
+
+Node ConfiguratorB.host2
+-- Routing table --
+Destination      Netmask          Gateway          Iface                  Metric
+10.0.0.0         255.255.255.248  *                eth0 (10.0.0.2) 0
+*                *                10.0.0.4         eth0 (10.0.0.2) 0
+
+Node ConfiguratorB.host3
+-- Routing table --
+Destination      Netmask          Gateway          Iface                  Metric
+10.0.0.8         255.255.255.248  *                eth0 (10.0.0.9) 0
+*                *                10.0.0.10        eth0 (10.0.0.9) 0
+
+Node ConfiguratorB.router0
+-- Routing table --
+Destination      Netmask          Gateway          Iface                  Metric
+10.0.0.18        255.255.255.255  *                eth1 (10.0.0.17) 0
+10.0.0.22        255.255.255.255  *                eth2 (10.0.0.21) 0
+10.0.0.25        255.255.255.255  10.0.0.22        eth2 (10.0.0.21) 0
+10.0.0.0         255.255.255.248  *                eth0 (10.0.0.4) 0
+10.0.0.32        255.255.255.248  10.0.0.22        eth2 (10.0.0.21) 0
+10.0.0.0         255.255.255.224  10.0.0.18        eth1 (10.0.0.17) 0
+
+Node ConfiguratorB.router2
+-- Routing table --
+Destination      Netmask          Gateway          Iface                  Metric
+10.0.0.18        255.255.255.255  10.0.0.26        eth0 (10.0.0.25) 0
+10.0.0.21        255.255.255.255  *                eth2 (10.0.0.22) 0
+10.0.0.26        255.255.255.255  *                eth0 (10.0.0.25) 0
+10.0.0.8         255.255.255.248  10.0.0.26        eth0 (10.0.0.25) 0
+10.0.0.32        255.255.255.248  *                eth1 (10.0.0.33) 0
+10.0.0.0         255.255.255.224  10.0.0.21        eth2 (10.0.0.22) 0
+
+Node ConfiguratorB.router1
+-- Routing table --
+Destination      Netmask          Gateway          Iface                  Metric
+10.0.0.17        255.255.255.255  *                eth0 (10.0.0.18) 0
+10.0.0.22        255.255.255.255  10.0.0.25        eth2 (10.0.0.26) 0
+10.0.0.25        255.255.255.255  *                eth2 (10.0.0.26) 0
+10.0.0.8         255.255.255.248  *                eth1 (10.0.0.10) 0
+10.0.0.32        255.255.255.248  10.0.0.25        eth2 (10.0.0.26) 0
+10.0.0.0         255.255.255.224  10.0.0.17        eth0 (10.0.0.18) 0
+
+Node ConfiguratorB.host4
+-- Routing table --
+Destination      Netmask          Gateway          Iface                  Metric
+10.0.0.8         255.255.255.248  *                eth0 (10.0.0.11) 0
+*                *                10.0.0.10        eth0 (10.0.0.11) 0
+
+Node ConfiguratorB.host5
+-- Routing table --
+Destination      Netmask          Gateway          Iface                  Metric
+10.0.0.8         255.255.255.248  *                eth0 (10.0.0.12) 0
+*                *                10.0.0.10        eth0 (10.0.0.12) 0
+
+Node ConfiguratorB.host6
+-- Routing table --
+Destination      Netmask          Gateway          Iface                  Metric
+10.0.0.32        255.255.255.248  *                eth0 (10.0.0.34) 0
+*                *                10.0.0.33        eth0 (10.0.0.34) 0
+
+Node ConfiguratorB.host7
+-- Routing table --
+Destination      Netmask          Gateway          Iface                  Metric
+10.0.0.32        255.255.255.248  *                eth0 (10.0.0.35) 0
+*                *                10.0.0.33        eth0 (10.0.0.35) 0
+
+Node ConfiguratorB.host8
+-- Routing table --
+Destination      Netmask          Gateway          Iface                  Metric
+10.0.0.32        255.255.255.248  *                eth0 (10.0.0.36) 0
+*                *                10.0.0.33        eth0 (10.0.0.36) 0
+</pre>
 
 @fixupini
 
