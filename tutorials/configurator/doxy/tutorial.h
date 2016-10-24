@@ -95,7 +95,6 @@ The default parameters pertaining to IP address assignment are the following:
 <pre>
 assignAddresses = default(true);
 assignDisjunctSubnetAddresses = default(true);
-dumpAddresses = default(false);
 </pre>
 
 - <strong>assignAddresses = true</strong> tells the configurator to assign IP addresses to interfaces. It assigns addresses based on the supplied xml configuration,
@@ -104,22 +103,16 @@ or the default xml configuration if none is specified. Since no xml configuratio
 - <strong>assignDisjunctSubnetAddresses = true</strong> sets that the configurator should assign different address prefixes and netmasks
 to nodes on different links.
 
-- <strong>dumpAddresses = false</strong> instructs the configurator to not print assigned IP addresses to the module output.
-
 Additionally, the <strong>dumpAddresses</strong> parameter sets whether the configurator prints assigned IP addresses to the module output.
-This is false by default, but its set to true in the <i>General</i> configuration at the begining of omnetpp.ini:
+This is false by default, but its set to true in the <i>General</i> configuration at the begining of omnetpp.ini (along with other setting, which
+will be discussed later).
 
 @dontinclude omnetpp.ini
 @skipline General
 @until ####
 
-Note that the other settings in the General configuration will be discussed later.
-
-<! dumpaddresses set to true in general config!!!!>
-<! so is links, topology and routes!>
-
-An XML configuration can be supplied with the <strong>config</strong> parameter. Below is the default for this configuration.
-This is utilized when the user doesn't specify any configuration.
+An XML configuration can be supplied with the <strong>config</strong> parameter. When the user doesn't specify an xml configuration,
+the configurator will use the following default configuration:
 
 <code>
 config = default(xml("<config><interface hosts='**' address='10.x.x.x' netmask='255.x.x.x'/></config>"));
@@ -154,8 +147,6 @@ Sometimes the user may want to specify the IP addresses of some nodes with speci
 
 This step uses the <i>ConfiguratorA</i> network from the previous step. We will assign the 10.0.0.50 address to <i>host1</i>
 and 10.0.0.100 to <i>host3</i>. The configurator will automatically assign addresses to the rest of the nodes.
-
-<! about the xml configuration>
 
 @subsection s2config Configuration
 
