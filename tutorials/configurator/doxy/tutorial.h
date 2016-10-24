@@ -104,14 +104,14 @@ or the default xml configuration if none is specified. Since no xml configuratio
 to nodes on different links.
 
 Additionally, the <strong>dumpAddresses</strong> parameter sets whether the configurator prints assigned IP addresses to the module output.
-This is false by default, but its set to true in the <i>General</i> configuration at the begining of omnetpp.ini (along with other setting, which
+This is false by default, but its set to true in the <i>General</i> configuration at the begining of omnetpp.ini (along with other settings, which
 will be discussed later).
 
 @dontinclude omnetpp.ini
 @skipline General
 @until ####
 
-An XML configuration can be supplied with the <strong>config</strong> parameter. When the user doesn't specify an xml configuration,
+An XML configuration can be supplied with the <i>config</i> parameter. When the user doesn't specify an xml configuration,
 the configurator will use the following default configuration:
 
 <code>
@@ -174,10 +174,14 @@ With these address templates it is possible to leave everything to the configura
 <! when there is a supplied configuration, and it doesnt specify all the addresses manually,
 the entry for the default configuration must be included in order for the configurator to assign addresses to all hosts>
 
-The xml configuration for this step contains two rules for setting the IP addresses of the two special hosts,
-and the rule of the default configuration, which tells the configurator to assign the rest of the addresses automatically.
+In the XML configuration for this step, the first two rules state that host3's interface named 'eth0' should get the IP address 10.0.0.100, and host1's interface 'eth0' should get IP 10.0.0.50.
+The third rule is the default configuration, which tells the configurator to assign the rest of the addresses automatically.
 
 Note that the configuration is processed sequentially, thus the order of the configuration elements is important.
+Also, when the user supplies an xml configuration and it doesn't assign all addresses manually, it has to contain the line for the default configuration,
+otherwise the configurator won't assign all addresses, just the ones specified in the XML. For the manual address assignment rules to take effect,
+the default configuration should be after the manual entries. This way the configurator first assigns the manually specified addresses,
+and then automatically assigns the rest.
 
 @section s2results Results
 
