@@ -32,3 +32,4 @@ network ConfiguratorB extends ConfiguratorA
         }
 }
 
+//##### (marker for doxygen)

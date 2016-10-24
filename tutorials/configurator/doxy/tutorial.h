@@ -225,7 +225,86 @@ The assigned addresses are shown on the following image.
 
 <img src="step3address.png" width=850px>
 
+The addresses are assigned as intended.
 
+@nav{step2,step4}
+@fixupini
+
+<!-------------------------------------------------------------------------------------------------------->
+
+@page step4 Step 4 - Fully automatic static routing table configuration
+
+@nav{step3,step5}
+
+@section s4goals Goals
+
+Just as with IP addresses, in many cases the configurator configures routes in a network adequatelly without any user input.
+This step demonstrates the default configuration for routing.
+
+@section s4model The model
+
+This step uses the <i>ConfiguratorB</i> network, defined in ConfiguratorB.ned. This extends the previous network, <i>ConfiguratorA</i> with
+the addition of a <i>RoutingTableCanvasVisualizer</i> module.
+
+@dontinclude ConfiguratorB.ned
+@skip ConfiguratorB
+@until ####
+
+<img src="step4network.png">
+
+@subsection s4config Configuration
+
+The configuration for this step in omnetpp.ini is the following:
+
+@dontinclude omnetpp.ini
+@skip Step4
+@until ####
+
+A ping app in host0 is configured to send ping packets to host7, which is on the other side of the network.
+This should aid in visualizing routing.
+
+The <i>RoutingTableCanvasVisualizer</i> module can be used to visualize routes in the network.
+Routes to be visualized are selected with its <i>destinationFilter</i> parameter.
+All routes leading towards that destination are indicated by arrows.
+The default setting is "", which means no routes are visualized. The "*.*" setting visualizes all routes
+going from every node to every other node, which can make the screen cluttered.
+In this step the <i>destinationFilter</i> is set to visualize all routes heading towards host7.
+
+The IP address assignment is fully automatic, and the resulting addresses should be the same as in Step 1.
+
+@subsection s4defaults Configurator routing parameters
+
+The configurator's default parameters concerning routing are the following:
+
+<pre>
+addStaticRoutes = default(true)
+addDefaultRoutes = default(true)
+addSubnetRoutes = default(true)
+optimizeRoutes = default(true)
+</pre>
+
+The configuration for this step didn't set any of these parameters, thus the default values will take effect.
+
+- <i>addStaticRoutes</i>: the configurator adds static routes to the routing table of all nodes in the network, 
+with routes leading to all destination interfaces. This should be turned off when the xml configuration contains
+manual routes.
+- <i>addDefaultRoutes</i>: Add a default route if all routes from a node go through the same gateway.
+This is often the case with hosts, which usually connect to a network via a single interface. This parameter
+is not used if <i>addStaticRoutes = false</i>.
+- <i>addSubnetRoutes</i>: Reach nodes in own subnet directly (ie. the gateway is the same as the destination), rather than with separate destination interface routes. This is only used where applicable, and not used if <i>addStaticRoutes = false</i>.
+- <i>optimizeRoutes</i>: Optimize routing tables by matching entries where possible. Not used if <i>addStaticRoutes = false</i>.
+
+Additionally, the <i>dumpTopology</i>, <i>dumpLinks</i> and <i>dumpRoutes</i> parameters are set to true in the <i>General</i> configuration.
+These set the configurator to print to the module output the topology of the network, the recognized network links, and the routing tables of all nodes, respectively.
+
+@dontinclude omnetpp.ini
+@skip General
+@until ####
+
+The <i>General</i> configuration also sets GlobalARP to keep the packet exchanges simpler. GlobalARP fills the ARP tables of all nodes in advance,
+so when the simulation begins no ARP exchanges are necessary. The <i>**.routingTable.netmaskRoutes = ""</i> keeps the routing table modules from
+adding netmask routes to the routing tables. Netmask routes mean that nodes with the same netmask but different IP should reach each other directly.
+There routes are also added by the configurator, so netmaskRoutes are turned off for the sake of simplicity.
 
 @fixupini
 
