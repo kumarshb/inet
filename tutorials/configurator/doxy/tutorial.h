@@ -83,12 +83,7 @@ The configuration for this step in omnetpp.ini is the following:
 @skip Step1
 @until ####
 
-<! THIS ONE SHOULD BE IN A LATER STEP - The line in the general configuration keeps the routingTable from adding netmask routes that come from interfaces. Since these routes are added by the configurator as well, to keep things simpler,
-we instruct the routingTable not to add any routes. This is added to the general configuration so it applies to the config of all steps.>
-<!TODO: more on this - how does it work?>
 The configuration for Step 1 is empty. The configurator configures addresses according to its default parameters, and using the default xml configuration.
-
-<! not all parameters are set to default, dumpaddresses set to true in general config!>
 
 The default parameters pertaining to IP address assignment are the following:
 
@@ -161,8 +156,6 @@ The xml configuration can be supplied to the <i>config</i> parameter in one of t
 - Inline xml using the <i>xml()</i> function. The argument of the function is the xml code.
 - External xml file useing the <i>xmldoc()</i> function. The argument of the function is the name of the xml configuration file.
 
-<!is this a function?>
-
 The xml configuration is supplied to the configurator as inline xml in this step. Xml configurations contain one <i><config></i> element. Under this root element there can be
 multiple configuration elements, such as the <i><interface></i> element here.
 The interface element can contain selector attributes, which limit the scope of what interfaces are affected by the <interface> element.
@@ -170,16 +163,11 @@ They can also contain parameter attributes, which deal with what parameters thos
 netmasks. The 'x' in the IP address and netmask signify that the value is not fixed, but the configurator should choose it automatically.
 With these address templates it is possible to leave everything to the configurator or specify everything, and anything in between. <!this last one is not clear, rewrite>
 
-<! need to explain host="" names="" address="" specifically><! do we need names=""? they have only one interface><!about xml="">
-<! when there is a supplied configuration, and it doesnt specify all the addresses manually,
-the entry for the default configuration must be included in order for the configurator to assign addresses to all hosts>
-
 In the XML configuration for this step, the first two rules state that host3's interface named 'eth0' should get the IP address 10.0.0.100, and host1's interface 'eth0' should get IP 10.0.0.50.
 The third rule is the default configuration, which tells the configurator to assign the rest of the addresses automatically.
 
 Note that the configuration is processed sequentially, thus the order of the configuration elements is important.
-Also, when the user supplies an xml configuration and it doesn't assign all addresses manually, it has to contain the line for the default configuration,
-otherwise the configurator won't assign all addresses, just the ones specified in the XML. For the manual address assignment rules to take effect,
+Also, when there is a supplied configuration, and it doesnt specify all the addresses, the entry for the default configuration must be included in order for the configurator to assign addresses to all interfaces. For the manual address assignment rules to take effect,
 the default configuration should be after the manual entries. This way the configurator first assigns the manually specified addresses,
 and then automatically assigns the rest.
 
@@ -219,25 +207,18 @@ The configuration is the following:
 @skipline Step3
 @until ####
 
-The xml configuration is supplied in an external file (step3.xml), using the xmldoc (TODO: what is this called?)
+The xml configuration is supplied in an external file (step3.xml), using the xmldoc function:
 
 @include step3.xml
 
-v1.
-The first 3 entries instruct the configurator to assign addresses to interfaces of hosts 0 to 2 according the 10.0.0.x template,
-to interfaces of hosts 3 to 5 according to the 10.0.1.x template, and so on.
+- The first 3 lines assign IP addresses with different network prefixes to hosts in the 3 different subnets.
 
-v2. 
-The first 3 entries instruct the configurator to assign addresses to hosts 0 to 2 with the 10.0.0 network prefix,
-to hosts 3 to 5 with the 10.0.1 network prefix, and so on.
+- The <i>towards</i> selector can be used to easily select the interfaces that are connected towards a certain host (or set of hosts?)
+The next 3 entries specify that each router's interface that connects to the subnet should belong to the subnet.
 
-The <i>towards</i> selector can be used to easily select the interfaces that are connected towards a certain host (or set of hosts?)
-The next 3 entries specify that the router's interface connecting to the subnet of hosts should be on the same subnet as those hosts.
-
-The last entry sets the network network prefix of interfaces of all routers to be 10.1. Since the addresses for the interfaces
+- The last entry sets the network network prefix of interfaces of all routers to be 10.1. Since the addresses for the interfaces
 connected towards the hosts are already specified by a previous entry, this effects only the rest of interfaces, those facing the other routers.
 
-<! is that correct to say network prefix?>
 @section s3results Results
 
 The assigned addresses are shown on the following image.
