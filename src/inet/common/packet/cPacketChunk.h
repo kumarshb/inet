@@ -31,6 +31,7 @@ class cPacketChunk : public Chunk
 
     virtual int64_t getByteLength() const override { return packet->getByteLength(); }
 
+    virtual cPacket *removePacket();
     virtual std::string str() const override;
 };
 
