@@ -42,6 +42,8 @@ transmission ranges, for example.
 In this step, we will show that the configurator's automatic IP address assignment is adequate for the example network
 (this step deals with IP addresses only, routing will be discussed in later steps).
 
+<!the configurator's automatic IP address assignment assigns addresses correctly for the example network?>
+
 @section s1model The model
 
 @subsection s1about  About the configurator
@@ -99,7 +101,7 @@ or the default xml configuration if none is specified. Since no xml configuratio
 to nodes on different links.
 
 Additionally, the <strong>dumpAddresses</strong> parameter sets whether the configurator prints assigned IP addresses to the module output.
-This is false by default, but its set to true in the <i>General</i> configuration at the begining of omnetpp.ini (along with other settings, which
+This is false by default, but it's set to true in the <i>General</i> configuration at the begining of omnetpp.ini (along with other settings, which
 will be discussed later).
 
 @dontinclude omnetpp.ini
@@ -154,11 +156,11 @@ The configuration in omnetpp.ini for this step is the following:
 The xml configuration can be supplied to the <i>config</i> parameter in one of two ways:
 
 - Inline xml using the <i>xml()</i> function. The argument of the function is the xml code.
-- External xml file useing the <i>xmldoc()</i> function. The argument of the function is the name of the xml configuration file.
+- External xml file using the <i>xmldoc()</i> function. The argument of the function is the name of the xml configuration file.
 
 The xml configuration is supplied to the configurator as inline xml in this step. Xml configurations contain one <i><config></i> element. Under this root element there can be
 multiple configuration elements, such as the <i><interface></i> element here.
-The interface element can contain selector attributes, which limit the scope of what interfaces are affected by the <interface> element.
+The <interface> element can contain selector attributes, which limit the scope of what interfaces are affected by the <interface> element.
 They can also contain parameter attributes, which deal with what parameters those selected interfaces will have, like IP addresses and
 netmasks. The 'x' in the IP address and netmask signify that the value is not fixed, but the configurator should choose it automatically.
 With these address templates it is possible to leave everything to the configurator or specify everything, and anything in between. <!this last one is not clear, rewrite>
@@ -192,7 +194,7 @@ remaining addresses.
 
 @section s3goals Goals
 
-Complex networks often contain several subnetworks, the user may want to assign specific IP address ranges for them.
+Complex networks often contain several subnetworks, and the user may want to assign specific IP address ranges for them.
 This step demonstrates how to assign a range of IP addresses to subnets with xml configuration templates.
 
 @section s3model The model
@@ -266,7 +268,7 @@ This should aid in visualizing routing.
 The <i>RoutingTableCanvasVisualizer</i> module can be used to visualize routes in the network.
 Routes to be visualized are selected with its <i>destinationFilter</i> parameter.
 All routes leading towards that destination are indicated by arrows.
-The default setting is <i>""</i>, which means no routes are visualized. The <i>"*.*"</i> setting visualizes all routes
+The default setting is <tt>""</tt>, which means no routes are visualized. The <tt>"*.*"</tt> setting visualizes all routes
 going from every node to every other node, which can make the screen cluttered.
 In this step the <i>destinationFilter</i> is set to visualize all routes heading towards <i>host7</i>.
 
