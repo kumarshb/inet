@@ -27,6 +27,7 @@ class cPacketChunk : public Chunk
 
   public:
     cPacketChunk() { }
+    ~cPacketChunk();
     cPacketChunk(cPacket *packet);
 
     virtual int64_t getByteLength() const override { return packet->getByteLength(); }

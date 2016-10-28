@@ -23,6 +23,11 @@ cPacketChunk::cPacketChunk(cPacket *packet) :
     take(packet);
 }
 
+cPacketChunk::~cPacketChunk()
+{
+    dropAndDelete(packet);
+}
+
 //TODO copy constructor: dup packet or store a shared ptr to cPacket???
 
 cPacket *cPacketChunk::removePacket()
